@@ -1,20 +1,15 @@
 from urllib.parse import urlencode
 import requests
 import pandas as pd
-import os
-os.chdir('D:\\Computis\\CLIENT\\NP1')
-
-def main():
-    walletList = ['cosmos14tcxx9z6gtdslajzz5qjlxu3vl3v23djyl6tgh','cosmos1ahannsepkam057pkelu69mar3gkjcnvdedkz6k','cosmos1j8t96quyejfwx3rm8emzy23t5j2e4r0dy8uxm0']
-    txHistory = cosmostation(walletList)
-    txHistory.to_excel('cosmosTxns.xlsx')
-
 
 
 def cosmostation(walletList):
     #visit https://v1.cosmos.network/rpc/v0.41.4
+
+    walletAddresses = list(walletList.keys())
+
     txHistory = pd.DataFrame() 
-    for wallet_address in walletList:
+    for walletAddress in walletAddresses:
         query_params = {
             "limit": 10,
             # "from": '0',
@@ -23,7 +18,7 @@ def cosmostation(walletList):
         headers = {
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36'
         }
-        url = f"https://api-cosmos.cosmostation.io/v1/account/new_txs/{wallet_address}"
+        url = f"https://api-cosmos.cosmostation.io/v1/account/new_txs/{walletAddress}"
 
         print("Requesting url=%s?%s", url, urlencode(query_params))
         response = requests.get(url, query_params, headers=headers)
@@ -42,7 +37,7 @@ def cosmostation(walletList):
         
         if len(data)>0:
             data = pd.DataFrame(data)
-            data['wallet'] = wallet_address
+            data['wallet'] = walletAddress
 
     txHistory = pd.concat([txHistory,pd.DataFrame(data)])
 
@@ -53,11 +48,14 @@ def cosmostation(walletList):
 def mintscan(walletList):
 
     # visit https://docs.cosmostation.io/apis, currently in beta, can't get apikey yet
+
+    walletAddresses = list(walletList.keys())
+
     network = 'cosmos'  
     apikey = ''
     txHistory = pd.DataFrame() 
-    for wallet_address in walletList:
-        url = f"https://apis.mintscan.io/v1/{network}/accounts/{wallet_address}/transactions"
+    for walletAddress in walletAddresses:
+        url = f"https://apis.mintscan.io/v1/{network}/accounts/{walletAddress}/transactions"
 
         headers = {"x-api-key": apikey}
         params = {
@@ -76,11 +74,7 @@ def mintscan(walletList):
 
         if len(data)>0:
             data = pd.DataFrame(data)
-            data['wallet'] = wallet_address
+            data['wallet'] = walletAddress
 
     txHistory = pd.concat([txHistory,data])
     return txHistory
-
-
-if __name__ == "__main__":
-    main()
