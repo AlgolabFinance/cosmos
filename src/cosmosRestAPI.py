@@ -60,7 +60,7 @@ def mintscan(walletList):
         headers = {"x-api-key": apikey}
         params = {
             # 'take'              : 20,
-            # 'searchAfter'       :'MTY4NjkxMzUyOTAwMHwxMDExMzc3M3w5MjY2RjQ1MENFNDVFM0NDMEIwMEM5OTgzQzZEM0Q1QzZCRkUxOTZENzFGODNFMEZFQThFQ0MwOTk4QUNBMTlD',
+            # 'searchAfter'       : 'MTY4NjkxMzUyOTAwMHwxMDExMzc3M3w5MjY2RjQ1MENFNDVFM0NDMEIwMEM5OTgzQzZEM0Q1QzZCRkUxOTZENzFGODNFMEZFQThFQ0MwOTk4QUNBMTlD',
             # 'messageTypes[0]'   : '/cosmos.gov.v1beta1.MsgVote',
             # 'messageTypes[1]'   : '/cosmos.bank.v1beta1.MsgSend',
             # 'messageTypes[2]'   : '/cosmos.staking.v1beta1.MsgDelegate',

@@ -1,9 +1,18 @@
 import os
 from datetime import datetime
-os.chdir('D:/Computis/CLIENT/NP1') #to replace with local directory
+os.chdir('D:/Computis/CLIENT/NP1/blockchain data/Cosmos') #to replace with local directory
 from src.cosmosRPC import RPC
 
 def main():
+    
+    # to choose a node provider below
+    
+    # rpcNode = 'https://cosmos-rpc.polkachu.com/'
+    # rpcNode = 'https://cosmos-rpc.tienthuattoan.ventures'
+    rpcNode = 'https://rpc-cosmoshub.mms.team/'
+    # rpcNode = 'https://rpc-cosmoshub.ecostake.com/'
+    # rpcNode = 'https://rpc.cosmos.directory/cosmoshub/'
+    # rpcNode = 'https://v1.cosmos.network/rpc/'
 
     walletList = {
         'cosmos14tcxx9z6gtdslajzz5qjlxu3vl3v23djyl6tgh': 'Cosmos 0-0 BOOTDISK',
@@ -12,8 +21,9 @@ def main():
         }
     reportTime = datetime.now().strftime("%b%dT%H%M")  
     client = 'NP1'
-    txHistory = RPC(walletList)
-    txHistory.to_excel(f'{client}-CosmosTxns-{reportTime}.xlsx')
+    txHistory = RPC(rpcNode,walletList)
+    filename = f'{client}-CosmosTxns-{reportTime}.xlsx'
+    txHistory.to_excel(filename)
 
 
 if __name__ == "__main__":
